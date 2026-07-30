@@ -1,0 +1,172 @@
+@import 'tailwindcss';
+@import 'tailwind-animations';
+
+/*colores default*/
+:root {
+  --primary-color: #aeb8c4;
+  --secondary-color: #1e40af;
+  --background-color: #f5f5f5;
+  --text-color: #070707;
+  --div-background-color: #A8B9F0;
+  --scrollbar-color: #728eeb;
+  --selected-color: #2250e7;
+
+}
+:root.dark {
+    --primary-color: #424242;
+    --secondary-color: #1e40af;
+    --background-color: #1e1e1e;
+    --text-color: #f5f5f5;
+    --div-background-color: #163083;
+    --scrollbar-color: #07227a;
+    --selected-color: #486de9;
+  }
+
+/*tipografia*/
+@font-face {
+  font-family: 'nunito-bold';
+  src: url('/src/fonts/Nunito-Bold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'nunito-light';
+  src: url('/src/fonts/Nunito-Light.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+/*barrita de scroll*/
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-color);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: #3b82f6;
+}
+/*estilo default*/
+body{
+  background-color: var(--background-color);
+  overflow-x: hidden;
+}
+
+body.transition-enabled {
+  margin: 0;
+  padding: 0;
+  font-family: 'CustomFont', system-ui, sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  transition: background-color 0.3s, color 0.3s;
+}
+a {
+  color: var(--text-color);
+  text-decoration: none;
+  opacity: 80%;
+  font-family:'nunito-light', system-ui, sans-serif ;
+}
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-color);
+    transition: color 0.3s;
+    font-family:'nunito-bold', system-ui, sans-serif ;
+}
+button {
+  color: var(--text-color);
+  border: 1px solid var(--div-background-color);
+  border-radius: 5px;
+  box-sizing: border-box;
+  padding: 10px 20px;
+  cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+button:hover {
+  background-color: var(--div-background-color);
+  color: var(--background-color);
+} 
+p {
+  color: var(--text-color);
+  transition: color 0.3s;
+  font-family:'nunito-light', system-ui, sans-serif ;
+}
+/*estilos personalizados*/
+.buttondw {
+  color: var(--text-color);
+  border: 1px solid var(--secondary-color);
+  background-color: transparent;
+  border-radius: 5px;
+  box-sizing: border-box;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+
+&:hover {
+  background-color: var(--secondary-color);
+  color: var(--background-color);
+}}
+
+#link, #github {
+  fill: var(--text-color);
+    transition: fill 0.3s;
+}
+.carrousel-container {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 10%,
+    black 90%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 10%,
+    black 90%,
+    transparent
+  );
+}
+.inputcont {
+  padding: 10px;
+  outline: none;
+  background-color: var(--contact-color);
+  width: 600px;
+  margin: 5px;
+  border: solid 1px var(--div-background-color);
+  border-radius: 5px;
+  font-family:'nunito-light', system-ui, sans-serif ;
+}
+
+.inputcont::placeholder{
+  color: var(--text-color);
+  opacity: 50%;
+  padding: 5px;
+}
+textarea{
+  resize: none;
+}
+section {
+  scroll-margin-top: 12vh; 
+}
+html{
+  scroll-behavior: smooth;
+}
+/*animacion carrusel*/
+#carrousel {
+  display: flex; 
+  flex-wrap: nowrap;  
+  flex-direction: row;     
+  width: max-content;
+  transform: translateX(-50%);
+  animation: scrollInfinito 30s linear infinite;
+  gap: 40px;
+  will-change: transform;
+}
+@keyframes scrollInfinito {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); } 
+}

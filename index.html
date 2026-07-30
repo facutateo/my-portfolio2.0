@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script>
+      (function() {
+      if (localStorage.getItem('mode') === 'dark' || (!('mode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.add('light');
+      }
+    })();
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Portfolio personal de Facundo Tateossian, desarrollador Frontend.">
+    <meta name="keywords" content="React, Frontend, Developer, Portafolio, Three.js, Vite">
+    <meta name="author" content="Facundo Tateossian">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://facutateo.github.io/my-portfolio/">
+    <meta property="og:title" content="Facundo Tateossian - Portfolio">
+    <meta property="og:description" content="Portfolio personal de Facundo Tateossian, desarrollador Frontend.">
+    <meta property="og:image" content="https://facutateo.github.io/my-portfolio/ft-full.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Facundo Tateossian | Frontend Dev">
+    <meta name="twitter:description" content="Portfolio personal de Facundo Tateossian, desarrollador Frontend.">
+    <meta name="twitter:image" content="https://facutateo.github.io/my-portfolio/ft-full.png">
+    <link rel="icon" type="image/svg+xml" href="/ft-blue.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Facundo Tateossian</title>
+    
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
