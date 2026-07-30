@@ -2,6 +2,7 @@ import { useTranslation } from "../hooks/useTranslation";
 import { GitHub } from "../../public/icon/github";
 import { LinkedIn } from "../../public/icon/linkedln";
 import { useState } from "react";
+import ShapeGrid from "../components/ShapeGrid";
 
 
 
@@ -22,7 +23,19 @@ function Home() {
     }, 2000);
     };
     return (
-        <div className="h-screen  w-full flex flex-col items-center justify-center relative animate-fade-in bg-linear-to-b from-(--div-background-color) to-transparent px-4">
+        <div className="h-screen  w-full flex flex-col items-center justify-center relative animate-fade-in px-4">
+            <div className="absolute inset-0 -z-10 w-full h-full overflow-hidden mask-[linear-gradient(to_bottom,black_60%,transparent_100%)]">
+            <ShapeGrid
+            speed={0.5}
+            squareSize={40}
+            direction='diagonal' // up, down, left, right, diagonal
+            hoverFillColorVar="--div-background-color"
+            borderColorVar="--div-background-color"
+            vignetteColorVar="--background-color"
+            shape='hexagon' // square, hexagon, circle, triangle
+            hoverTrailAmount={0} // number of trailing hovered shapes (0 = no trail)
+            />
+            </div>
             <div className="flex flex-col items-center text-center">
                 <h1 className="md:text-7xl text-4xl sm:text-5xl font-bold tracking-tight">Facundo Tateossian</h1>
                 <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mt-2 text-(--secondary-color)">{t("dev")}</h1>

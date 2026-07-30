@@ -15,11 +15,14 @@
     "@react-three/fiber": "^9.6.1",
     "@tailwindcss/vite": "^4.3.2",
     "emailjs": "^5.0.1",
+    "gsap": "^3.15.0",
+    "motion": "^12.43.0",
+    "ogl": "^1.0.11",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "tailwind-animations": "^1.0.1",
     "tailwindcss": "^4.3.2",
-    "three": "^0.185.1"
+    "three": "^0.180.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

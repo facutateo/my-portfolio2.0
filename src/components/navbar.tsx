@@ -16,7 +16,7 @@ function Navbar() {
       : "";
   };
   return (
-    <nav className= "h-20 bg-(--background-color) px-6 flex items-center justify-between shadow-blue-800/30 shadow-md sticky top-0 z-50 backdrop-blur-md animate-slide-in-top">
+    <nav className= "h-20 bg-(--background-color) px-6 flex items-center justify-between shadow-blue-800/30 shadow-md sticky top-0 z-50 backdrop-blur-md animate-slide-in-top rounded-4xl">
       <div className="flex justify-start">
       <div className="w-24 h-10 flex items-center">
         <a href="#home">
