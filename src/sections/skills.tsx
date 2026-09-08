@@ -3,7 +3,7 @@ import { useTranslation } from "../hooks/useTranslation";
 import {useActiveSection} from "../hooks/useActiveSection";
 
 function Skills() {
-    const skills = ["HTML", "CSS", "JavaScript", "TypeScript", "React", "Git", "Github", "TailwindCSS","Figma"];
+    const skills = ["HTML", "CSS", "JavaScript", "TypeScript", "React", "Git", "Github", "TailwindCSS","Figma","Python","C#","SQL"];
     const doubleSkills = [...skills, ...skills];
     const {t} = useTranslation()
     const activeSection = useActiveSection(["home","about","skills", "projects", "contact"]);
