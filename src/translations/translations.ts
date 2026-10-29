@@ -22,7 +22,15 @@ export const translations = {
     name: 'Nombre',
     text: 'Mensaje',
     send: 'Enviar',
-    contactme: 'Contactame'
+    contactme: 'Contactame',
+    tagline: 'Construyo interfaces rápidas, accesibles y cuidadas al detalle.',
+    sending: 'Enviando…',
+    sent: '¡Mensaje enviado! Te respondo pronto.',
+    senderror: 'No se pudo enviar. Probá de nuevo en un rato.',
+    menu: 'Abrir o cerrar menú',
+    theme: 'Cambiar modo claro/oscuro',
+    lang: 'Switch to English',
+    rights: 'Todos los derechos reservados.'
   },
   en: {
     about: "About me",
@@ -43,9 +51,17 @@ export const translations = {
     deseduc1: 'I am currently in my second year of Systems Engineering at UAI, where I have acquired solid knowledge in programming and software development.',
     deseduc2: 'I autonomously study different technologies and tools related to web development, which allows me to stay updated in a constantly evolving field.',
     name: 'Name',
-    text: 'Menssage',
+    text: 'Message',
     send: 'Send',
     contactme: 'Contact me',
+    tagline: 'I build fast, accessible interfaces crafted down to the detail.',
+    sending: 'Sending…',
+    sent: 'Message sent! I will get back to you soon.',
+    senderror: 'Could not send it. Please try again later.',
+    menu: 'Toggle menu',
+    theme: 'Toggle light/dark mode',
+    lang: 'Cambiar a español',
+    rights: 'All rights reserved.',
   },
 } as const
 

@@ -1,25 +1,28 @@
 import SkillCard from "../components/skillcard";
 import { useTranslation } from "../hooks/useTranslation";
-import {useActiveSection} from "../hooks/useActiveSection";
+import { useActiveSection } from "../hooks/useActiveSection";
+
+const skills = ["HTML", "CSS", "JavaScript", "TypeScript", "React", "Git", "Github", "TailwindCSS","Figma","Python","C#","SQL"];
+const doubleSkills = [...skills, ...skills];
 
 function Skills() {
-    const skills = ["HTML", "CSS", "JavaScript", "TypeScript", "React", "Git", "Github", "TailwindCSS","Figma","Python","C#","SQL"];
-    const doubleSkills = [...skills, ...skills];
     const {t} = useTranslation()
-    const activeSection = useActiveSection(["home","about","skills", "projects", "contact"]);
+    const activeSection = useActiveSection();
     return (
-        <div className={`w-full min-h-screen flex flex-col items-center justify-center ${activeSection === "skills"?'animate-fade-in-down':'animate-fade-out-up'}`}>
-            <div className="text-center p-10 md:p-20">
-            <h1 className="md:text-5xl text-3xl">{t("my")} {t("skills")}</h1>
+        <div className={`w-full min-h-screen flex flex-col items-center justify-center ${activeSection === "skills"?'animate-fade-in-down':'animate-fade-out-up'} py-16`}>
+            <div className="text-center pb-10 md:pb-16">
+                <p className="eyebrow">02</p>
+                <h2 className="md:text-6xl text-4xl mt-2">{t("my")} {t("skills")}</h2>
             </div>
-        <div className="w-full max-w-4xl md:w-auto flex items-center overflow-hidden carrousel-container h-52 md:h-60 px-4 md:mr-20 md:ml-10">
-            <div className="flex flex-nowrap md:gap-10 gap-4" id="carrousel">
-                {doubleSkills.map((skill, index) => (
-                    <SkillCard key={`${skill}-${index}`} skill={skill} />
-                ))}
+            {/* Celular: carrusel infinito. Escritorio: grilla con todas las skills a la vista. */}
+            <div className="w-full max-w-4xl flex items-center overflow-hidden md:overflow-visible carrousel-container h-52 md:h-auto motion-reduce:h-auto motion-reduce:py-2 px-4 md:px-8">
+                <ul className="flex flex-nowrap gap-4" id="carrousel">
+                    {doubleSkills.map((skill, index) => (
+                        <SkillCard key={`${skill}-${index}`} skill={skill} duplicate={index >= skills.length} />
+                    ))}
+                </ul>
             </div>
         </div>
-        </div> 
     );
 }
 

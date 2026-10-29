@@ -1,42 +1,54 @@
 @import 'tailwindcss';
 @import 'tailwind-animations';
+@import '@fontsource/righteous/400.css';
+@import '@fontsource-variable/manrope/wght.css';
 
-/*colores default*/
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*tokens de marca*/
 :root {
-  --primary-color: #aeb8c4;
-  --secondary-color: #1e40af;
-  --background-color: #f5f5f5;
-  --text-color: #070707;
-  --div-background-color: #A8B9F0;
-  --scrollbar-color: #728eeb;
-  --selected-color: #2250e7;
-
+  --bg: #f4f6fb;
+  --surface: #ffffff;
+  --text: #0f1424;
+  --muted: #525a70;
+  --border: #d5dbea;
+  --accent: #2350e0;
+  --accent-strong: #1a3fb8;
+  --on-accent: #ffffff;
+  --spark: #0ea5e9;
+  --grid-line: #dfe4f0;
+  --glow: rgb(35 80 224 / 0.16);
+  color-scheme: light;
 }
 :root.dark {
-    --primary-color: #424242;
-    --secondary-color: #1e40af;
-    --background-color: #1e1e1e;
-    --text-color: #f5f5f5;
-    --div-background-color: #163083;
-    --scrollbar-color: #07227a;
-    --selected-color: #486de9;
-  }
+  --bg: #0a0d16;
+  --surface: #121726;
+  --text: #eef1f8;
+  --muted: #9aa3b8;
+  --border: #232a3d;
+  --accent: #6b8cff;
+  --accent-strong: #8ea8ff;
+  --on-accent: #0a0d16;
+  --spark: #38bdf8;
+  --grid-line: #161c2c;
+  --glow: rgb(107 140 255 / 0.18);
+  color-scheme: dark;
+}
 
-/*tipografia*/
-@font-face {
-  font-family: 'nunito-bold';
-  src: url('/src/fonts/Nunito-Bold.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-ink: var(--text);
+  --color-muted: var(--muted);
+  --color-line: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-on-accent: var(--on-accent);
+  --color-spark: var(--spark);
+  --font-display: 'Righteous', system-ui, sans-serif;
+  --font-sans: 'Manrope Variable', system-ui, sans-serif;
 }
-@font-face {
-  font-family: 'nunito-light';
-  src: url('/src/fonts/Nunito-Light.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
+
 /*barrita de scroll*/
 ::-webkit-scrollbar {
   width: 8px;
@@ -45,115 +57,125 @@
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background-color: var(--scrollbar-color);
+  background-color: var(--border);
   border-radius: 999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background-color: #3b82f6;
+  background-color: var(--accent);
 }
-/*estilo default*/
-body{
-  background-color: var(--background-color);
-  overflow-x: hidden;
+::selection {
+  background: var(--accent);
+  color: var(--on-accent);
 }
 
-body.transition-enabled {
+/*estilo default*/
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+body {
   margin: 0;
-  padding: 0;
-  font-family: 'CustomFont', system-ui, sans-serif;
-  background-color: var(--background-color);
-  color: var(--text-color);
-  transition: background-color 0.3s, color 0.3s;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+body.transition-enabled,
+body.transition-enabled :is(h1, h2, h3, p, a, button, nav, li) {
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
 a {
-  color: var(--text-color);
+  color: inherit;
   text-decoration: none;
-  opacity: 80%;
-  font-family:'nunito-light', system-ui, sans-serif ;
 }
 h1, h2, h3, h4, h5, h6 {
-  color: var(--text-color);
-    transition: color 0.3s;
-    font-family:'nunito-bold', system-ui, sans-serif ;
+  color: var(--text);
+  font-family: var(--font-display);
+  /* Righteous tiene un solo peso: forzar 700 generaría negrita falsa. */
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
 }
-button {
-  color: var(--text-color);
-  border: 1px solid var(--div-background-color);
-  border-radius: 5px;
-  box-sizing: border-box;
-  padding: 10px 20px;
-  cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
+p, li {
+  color: var(--text);
 }
-button:hover {
-  background-color: var(--div-background-color);
-  color: var(--background-color);
-} 
-p {
-  color: var(--text-color);
-  transition: color 0.3s;
-  font-family:'nunito-light', system-ui, sans-serif ;
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 6px;
 }
-/*estilos personalizados*/
-.buttondw {
-  color: var(--text-color);
-  border: 1px solid var(--secondary-color);
-  background-color: transparent;
-  border-radius: 5px;
-  box-sizing: border-box;
-  padding: 10px 20px;
-  cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
 
-&:hover {
-  background-color: var(--secondary-color);
-  color: var(--background-color);
-}}
+/*botones*/
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 999px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s, transform 0.2s;
+}
+.btn-primary {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+.btn-primary:hover {
+  background: var(--accent-strong);
+}
+.btn-ghost {
+  border-color: var(--border);
+  color: var(--text);
+  background: transparent;
+}
+.btn-ghost:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/*titulo de seccion*/
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
 
 #link, #github {
-  fill: var(--text-color);
-    transition: fill 0.3s;
+  fill: currentColor;
 }
 .carrousel-container {
-  -webkit-mask-image: linear-gradient(
-    to right,
-    transparent,
-    black 10%,
-    black 90%,
-    transparent
-  );
-  mask-image: linear-gradient(
-    to right,
-    transparent,
-    black 10%,
-    black 90%,
-    transparent
-  );
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
 }
 .inputcont {
-  padding: 10px;
+  width: 100%;
+  padding: 0.85rem 1rem;
   outline: none;
-  background-color: var(--contact-color);
-  width: 600px;
-  margin: 5px;
-  border: solid 1px var(--div-background-color);
-  border-radius: 5px;
-  font-family:'nunito-light', system-ui, sans-serif ;
+  background-color: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font: inherit;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
-
-.inputcont::placeholder{
-  color: var(--text-color);
-  opacity: 50%;
-  padding: 5px;
+.inputcont:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--glow);
 }
-textarea{
+.inputcont::placeholder {
+  color: var(--muted);
+}
+textarea {
   resize: none;
 }
 section {
-  scroll-margin-top: 12vh; 
-}
-html{
-  scroll-behavior: smooth;
+  scroll-margin-top: 12vh;
 }
 .shapegrid-canvas {
   width: 100%;
@@ -161,18 +183,43 @@ html{
   border: none;
   display: block;
 }
+
 /*animacion carrusel*/
 #carrousel {
-  display: flex; 
-  flex-wrap: nowrap;  
-  flex-direction: row;     
+  display: flex;
+  flex-wrap: nowrap;
   width: max-content;
-  transform: translateX(-50%);
-  animation: scrollInfinito 30s linear infinite;
-  gap: 40px;
+  animation: scrollInfinito 40s linear infinite;
   will-change: transform;
+}
+.carrousel-container:hover #carrousel {
+  animation-play-state: paused;
+}
+@media (min-width: 768px) {
+  .carrousel-container { mask-image: none; }
+  #carrousel {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    width: 100%;
+    animation: none;
+    transform: none;
+  }
+}
+@media (min-width: 1280px) {
+  #carrousel { grid-template-columns: repeat(6, minmax(0, 1fr)); }
 }
 @keyframes scrollInfinito {
   0% { transform: translateX(-50%); }
-  100% { transform: translateX(0); } 
+  100% { transform: translateX(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  #carrousel { animation: none; transform: none; flex-wrap: wrap; width: auto; justify-content: center; }
+  .carrousel-container { mask-image: none; }
 }

@@ -1,11 +1,14 @@
+const base = import.meta.env.BASE_URL
 
-
-function SkillCard({ skill}: { skill: string; }) {
+function SkillCard({ skill, duplicate = false }: { skill: string; duplicate?: boolean }) {
     return (
-        <div className="w-33 h-40 md:h-50 md:w-40 rounded-lg p-3 md:p-4 flex flex-col justify-center items-center hover:animate-bouncing cursor-pointer border border-(--div-background-color) transition-all duration-300">
-            <h2 className="text-lg md:text-xl font-bold mb-2 text-center wrap-break-word w-full ">{skill}</h2>
-            <img src={`icon/${skill === 'C#' ? 'Csharp' : skill}.svg`} alt={`logo ${skill}`} className="h-16 w-16 md:h-10 md:w-20" />
-        </div>
+        <li
+            aria-hidden={duplicate || undefined}
+            className={`${duplicate ? "motion-reduce:hidden md:hidden" : ""} group w-33 h-40 md:w-full md:h-36 rounded-3xl p-3 md:p-4 flex flex-col justify-center items-center gap-4 hover:animate-bouncing border border-line bg-surface/70 hover:border-accent transition-colors duration-300`}
+        >
+            <img src={`${base}icon/${skill === 'C#' ? 'Csharp' : skill}.svg`} alt="" width={48} height={48} loading="lazy" decoding="async" className={`h-12 w-12 transition-transform duration-300 group-hover:scale-110 ${skill === 'Github' ? 'invert dark:invert-0' : ''}`} />
+            <h3 className="text-base md:text-sm xl:text-base text-center w-full leading-tight">{skill === 'TailwindCSS' ? 'Tailwind CSS' : skill}</h3>
+        </li>
     );
 }
 

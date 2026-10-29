@@ -1,5 +1,4 @@
 import React, { useRef, useEffect } from 'react';
-import '../index.css';
 
 type CanvasStrokeStyle = string | CanvasGradient | CanvasPattern;
 
@@ -53,21 +52,42 @@ const ShapeGrid: React.FC<ShapeGridProps> = ({
     const hexHoriz = squareSize * 1.5;
     const hexVert = squareSize * Math.sqrt(3);
 
+    let width = 0;
+    let height = 0;
     const resizeCanvas = () => {
-      canvas.width = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
-      numSquaresX.current = Math.ceil(canvas.width / squareSize) + 1;
-      numSquaresY.current = Math.ceil(canvas.height / squareSize) + 1;
+      // Se dibuja a la densidad real de la pantalla (máx. 2x) para que las líneas se vean nítidas.
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      width = canvas.offsetWidth;
+      height = canvas.offsetHeight;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      ctx?.setTransform(dpr, 0, 0, dpr, 0, 0);
+      numSquaresX.current = Math.ceil(width / squareSize) + 1;
+      numSquaresY.current = Math.ceil(height / squareSize) + 1;
     };
 
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
-    // Función aux para obtener el valor dinámico de una variable CSS en tiempo real
+    // Los colores del tema se leen una sola vez y se vuelven a leer solo cuando cambia la clase de <html>.
     const getCssVar = (varName: string, fallback: string): string => {
       const value = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
       return value || fallback;
     };
+    let colors = { border: '', hover: '', vignette: '' };
+    const readColors = () => {
+      colors = {
+        border: getCssVar(borderColorVar, borderColor as string),
+        hover: getCssVar(hoverFillColorVar, hoverFillColor as string),
+        vignette: getCssVar(vignetteColorVar, '#120F17'),
+      };
+    };
+    readColors();
+    const themeObserver = new MutationObserver(() => {
+      readColors();
+      if (!running) drawGrid();
+    });
+    themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 
     const drawHex = (cx: number, cy: number, size: number) => {
       if (!ctx) return;
@@ -107,20 +127,19 @@ const ShapeGrid: React.FC<ShapeGridProps> = ({
     const drawGrid = () => {
       if (!ctx) return;
 
-      // Obtener colores actualizados del tema (se reactualizan automáticamente al cambiar .dark o el CSS)
-      const currentBorderColor = getCssVar(borderColorVar, borderColor as string);
-      const currentHoverColor = getCssVar(hoverFillColorVar, hoverFillColor as string);
-      const currentVignetteColor = getCssVar(vignetteColorVar, '#120F17');
+      const currentBorderColor = colors.border;
+      const currentHoverColor = colors.hover;
+      const currentVignetteColor = colors.vignette;
 
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, width, height);
 
       if (isHex) {
         const colShift = Math.floor(gridOffset.current.x / hexHoriz);
         const offsetX = ((gridOffset.current.x % hexHoriz) + hexHoriz) % hexHoriz;
         const offsetY = ((gridOffset.current.y % hexVert) + hexVert) % hexVert;
 
-        const cols = Math.ceil(canvas.width / hexHoriz) + 3;
-        const rows = Math.ceil(canvas.height / hexVert) + 3;
+        const cols = Math.ceil(width / hexHoriz) + 3;
+        const rows = Math.ceil(height / hexVert) + 3;
 
         for (let col = -2; col < cols; col++) {
           for (let row = -2; row < rows; row++) {
@@ -149,8 +168,8 @@ const ShapeGrid: React.FC<ShapeGridProps> = ({
         const offsetX = ((gridOffset.current.x % halfW) + halfW) % halfW;
         const offsetY = ((gridOffset.current.y % squareSize) + squareSize) % squareSize;
 
-        const cols = Math.ceil(canvas.width / halfW) + 4;
-        const rows = Math.ceil(canvas.height / squareSize) + 4;
+        const cols = Math.ceil(width / halfW) + 4;
+        const rows = Math.ceil(height / squareSize) + 4;
 
         for (let col = -2; col < cols; col++) {
           for (let row = -2; row < rows; row++) {
@@ -177,8 +196,8 @@ const ShapeGrid: React.FC<ShapeGridProps> = ({
         const offsetX = ((gridOffset.current.x % squareSize) + squareSize) % squareSize;
         const offsetY = ((gridOffset.current.y % squareSize) + squareSize) % squareSize;
 
-        const cols = Math.ceil(canvas.width / squareSize) + 3;
-        const rows = Math.ceil(canvas.height / squareSize) + 3;
+        const cols = Math.ceil(width / squareSize) + 3;
+        const rows = Math.ceil(height / squareSize) + 3;
 
         for (let col = -2; col < cols; col++) {
           for (let row = -2; row < rows; row++) {
@@ -204,8 +223,8 @@ const ShapeGrid: React.FC<ShapeGridProps> = ({
         const offsetX = ((gridOffset.current.x % squareSize) + squareSize) % squareSize;
         const offsetY = ((gridOffset.current.y % squareSize) + squareSize) % squareSize;
 
-        const cols = Math.ceil(canvas.width / squareSize) + 3;
-        const rows = Math.ceil(canvas.height / squareSize) + 3;
+        const cols = Math.ceil(width / squareSize) + 3;
+        const rows = Math.ceil(height / squareSize) + 3;
 
         for (let col = -2; col < cols; col++) {
           for (let row = -2; row < rows; row++) {
@@ -229,18 +248,19 @@ const ShapeGrid: React.FC<ShapeGridProps> = ({
 
       // Viñeta dinámica basada en la variable CSS del tema
       const gradient = ctx.createRadialGradient(
-        canvas.width / 2,
-        canvas.height / 2,
+        width / 2,
+        height / 2,
         0,
-        canvas.width / 2,
-        canvas.height / 2,
-        Math.sqrt(canvas.width ** 2 + canvas.height ** 2) / 2
+        width / 2,
+        height / 2,
+        Math.sqrt(width ** 2 + height ** 2) / 2
       );
-      gradient.addColorStop(0, 'rgba(0, 0, 0, 0.1)');
+      // Transparente del mismo color que el fondo, para que la viñeta no se vea gris en modo claro.
+      gradient.addColorStop(0, /^#[0-9a-f]{6}$/i.test(currentVignetteColor) ? `${currentVignetteColor}00` : 'rgba(0, 0, 0, 0)');
       gradient.addColorStop(1, currentVignetteColor);
 
       ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillRect(0, 0, width, height);
     };
 
     const updateAnimation = () => {
@@ -271,8 +291,30 @@ const ShapeGrid: React.FC<ShapeGridProps> = ({
 
       updateCellOpacities();
       drawGrid();
-      requestRef.current = requestAnimationFrame(updateAnimation);
+      if (running) requestRef.current = requestAnimationFrame(updateAnimation);
     };
+
+    // La animación solo corre mientras el canvas está en pantalla, la pestaña está visible
+    // y el usuario no pidió movimiento reducido.
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let running = false;
+    let onScreen = true;
+    const sync = () => {
+      const shouldRun = onScreen && !document.hidden && !reducedMotion;
+      if (shouldRun && !running) {
+        running = true;
+        requestRef.current = requestAnimationFrame(updateAnimation);
+      } else if (!shouldRun && running) {
+        running = false;
+        if (requestRef.current) cancelAnimationFrame(requestRef.current);
+      }
+    };
+    const visibilityObserver = new IntersectionObserver(([entry]) => {
+      onScreen = entry.isIntersecting;
+      sync();
+    });
+    visibilityObserver.observe(canvas);
+    document.addEventListener('visibilitychange', sync);
 
     const updateCellOpacities = () => {
       const targets = new Map<string, number>();
@@ -410,15 +452,26 @@ const ShapeGrid: React.FC<ShapeGridProps> = ({
       hoveredSquareRef.current = null;
     };
 
-    canvas.addEventListener('mousemove', handleMouseMove);
-    canvas.addEventListener('mouseleave', handleMouseLeave);
-    requestRef.current = requestAnimationFrame(updateAnimation);
+    // El canvas queda detrás del contenido, así que el puntero se escucha en la ventana.
+    const handlePointer = (event: PointerEvent) => {
+      if (event.pointerType !== 'mouse' || !running) return;
+      const rect = canvas.getBoundingClientRect();
+      const inside = event.clientX >= rect.left && event.clientX <= rect.right && event.clientY >= rect.top && event.clientY <= rect.bottom;
+      if (inside) handleMouseMove(event);
+      else if (hoveredSquareRef.current) handleMouseLeave();
+    };
+    window.addEventListener('pointermove', handlePointer, { passive: true });
+    sync();
+    if (!running) drawGrid();
 
     return () => {
       window.removeEventListener('resize', resizeCanvas);
+      running = false;
       if (requestRef.current) cancelAnimationFrame(requestRef.current);
-      canvas.removeEventListener('mousemove', handleMouseMove);
-      canvas.removeEventListener('mouseleave', handleMouseLeave);
+      window.removeEventListener('pointermove', handlePointer);
+      document.removeEventListener('visibilitychange', sync);
+      visibilityObserver.disconnect();
+      themeObserver.disconnect();
     };
   }, [
     direction,

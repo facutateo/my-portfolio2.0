@@ -1,52 +1,58 @@
 import { useTranslation } from "../hooks/useTranslation";
 import BotonLenguage from "./button-lenguage";
 import ButtonMode from "./button-mode";
-import { useActiveSection }  from "../hooks/useActiveSection";
+import { useActiveSection } from "../hooks/useActiveSection";
 import { useState } from "react";
+import Logo from "./logo";
 
+const LINKS = ["about", "skills", "projects", "contact"] as const;
 
 function Navbar() {
   const {t} = useTranslation()
-  const activeSection = useActiveSection(["home","about", "skills", "projects", "contact"]);
+  const activeSection = useActiveSection();
   const [isOpen, setIsOpen] = useState(false)
 
   const getLinkClass = (sectionId: string) => {
     return activeSection === sectionId
-      ? "!text-(--selected-color) text-shadow:0_0_8px_(--div-background-color),0_0_16px_(--div-background-color)] animate-pulse animate-iteration-count-infinite"
-      : "";
+      ? "text-accent after:scale-x-100"
+      : "text-muted hover:text-ink";
   };
   return (
-    <nav className= "h-20 bg-(--background-color) px-6 flex items-center justify-between shadow-blue-800/30 shadow-md sticky top-0 z-50 backdrop-blur-md animate-slide-in-top rounded-4xl">
-      <div className="flex justify-start">
-      <div className="w-24 h-10 flex items-center">
-        <a href="#home">
-        <img src="ft-full.png"alt="logo" className="hover:animate-pulse hover:animate-iteration-count-infinite cursor-pointer" />
-        </a>
+    <nav className="sticky top-3 z-50 mx-3 md:mx-6 h-16 px-4 md:px-6 flex items-center justify-between rounded-full border border-line bg-bg/75 backdrop-blur-md shadow-[0_8px_30px_-12px_var(--glow)] animate-slide-in-top">
+      <a href="#home" aria-label="Facundo Tateossian — inicio" className="hover:animate-pulse">
+        <Logo className="h-9 w-auto" />
+      </a>
+      <div className={`fixed md:static top-[5.5rem] left-3 right-3 md:w-auto rounded-3xl md:rounded-none border md:border-0 border-line bg-bg md:bg-transparent flex-col md:flex-row flex items-center justify-center gap-1 md:gap-2 p-4 md:p-0 shadow-xl md:shadow-none transition-all duration-300 ease-in-out ${isOpen? "opacity-100 translate-y-0":"opacity-0 -translate-y-6 pointer-events-none md:opacity-100 md:translate-y-0 md:pointer-events-auto"}`}>
+        {LINKS.map((id) => (
+          <a
+            key={id}
+            href={`#${id}`}
+            onClick={() => setIsOpen(false)}
+            aria-current={activeSection === id ? "true" : undefined}
+            className={`relative px-4 py-3 md:py-2 text-lg md:text-sm font-semibold transition-colors after:absolute after:left-4 after:right-4 after:bottom-1 after:h-0.5 after:rounded-full after:bg-accent after:scale-x-0 after:origin-left after:transition-transform ${getLinkClass(id)}`}
+          >
+            {t(id)}
+          </a>
+        ))}
       </div>
-      </div>
-      <div className={`fixed md:static top-20 left-0 w-full md:w-auto bg-(--background-color) md:bg-transparent flex-col md:flex-row flex items-center justify-center gap-4 md:gap-6 p-6 md:p-0 shadow-md md:shadow-none transition-all duration-300 ease-in-out ${isOpen? "opacity-100 translate-y-0":"opacity-0 -translate-y-10 pointer-events-none md:opacity-100 md:translate-y-0 md:pointer-events-auto"}`}>
-        <a className={`p-4 hover:animate-rotational-wave cursor-pointer text-lg md:text-base ${getLinkClass("about")}`} onClick={() => setIsOpen(false)} href="#about">{t("about")}</a>
-        <a className={`p-4 hover:animate-rotational-wave cursor-pointer text-lg md:text-base ${getLinkClass("skills")}`} onClick={() => setIsOpen(false)} href="#skills">{t("skills")}</a>
-        <a className={`p-4 hover:animate-rotational-wave cursor-pointer text-lg md:text-base ${getLinkClass("projects")}`} onClick={() => setIsOpen(false)} href="#projects">{t("projects")}</a>
-        <a className={`p-4 hover:animate-rotational-wave cursor-pointer text-lg md:text-base ${getLinkClass("contact")}`} onClick={() => setIsOpen(false)} href="#contact">{t("contact")}</a>
+      <div className="flex justify-end items-center gap-2">
+        <div className="flex items-center gap-1 rounded-full border border-line p-1">
+          <ButtonMode />
+          <BotonLenguage />
         </div>
-        <div className="flex justify-end items-center gap-3" >
-          <div className="rounded-xl border border-(--div-background-color) items-center gap-2 shadow-blue-800/30 flex p-2 bg-(--background-color)">
-            <ButtonMode />
-            <BotonLenguage />
-            </div>
-            <button 
-          onClick={() => setIsOpen(!isOpen)} 
-          className="md:hidden p-2 text-(--text-color) focus:outline-none border-none hover:bg-(--div-background-color)/20"
-          aria-label="Toggle Menu"
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="md:hidden grid place-items-center w-10 h-10 rounded-full text-ink hover:bg-accent/10 cursor-pointer"
+          aria-label={t("menu")}
+          aria-expanded={isOpen}
         >
           {isOpen ? (
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
           ) : (
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 7h16M4 12h16M4 17h10" /></svg>
           )}
         </button>
-        </div>
+      </div>
     </nav>
   );
 }
