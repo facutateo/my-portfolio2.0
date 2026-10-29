@@ -1,36 +1,44 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
-    <script>
-      (function() {
-      if (localStorage.getItem('mode') === 'dark' || (!('mode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.add('light');
-      }
-    })();
-    </script>
     <meta charset="UTF-8" />
-    <meta name="description" content="Portfolio personal de Facundo Tateossian, desarrollador Frontend.">
-    <meta name="keywords" content="React, Frontend, Developer, Portafolio, Three.js, Vite">
-    <meta name="author" content="Facundo Tateossian">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://facutateo.github.io/my-portfolio/">
-    <meta property="og:title" content="Facundo Tateossian - Portfolio">
-    <meta property="og:description" content="Portfolio personal de Facundo Tateossian, desarrollador Frontend.">
-    <meta property="og:image" content="https://facutateo.github.io/my-portfolio/ft-full.png">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Facundo Tateossian | Frontend Dev">
-    <meta name="twitter:description" content="Portfolio personal de Facundo Tateossian, desarrollador Frontend.">
-    <meta name="twitter:image" content="https://facutateo.github.io/my-portfolio/ft-full.png">
-    <link rel="icon" type="image/svg+xml" href="/my-portfolio2.0/ft-blue.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Facundo Tateossian</title>
-    
-    <script type="module" crossorigin src="/my-portfolio2.0/assets/index-DzTEOtY8.js"></script>
-    <link rel="stylesheet" crossorigin href="/my-portfolio2.0/assets/index-CxdTTKNn.css">
+    <script>
+      (function () {
+        var dark = localStorage.getItem('mode') === 'dark' || (!('mode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.classList.add(dark ? 'dark' : 'light');
+        var lang = localStorage.getItem('language');
+        if (lang === 'en' || lang === 'es') document.documentElement.lang = lang;
+      })();
+    </script>
+    <title>Facundo Tateossian · Frontend Developer</title>
+    <meta name="description" content="Portfolio de Facundo Tateossian, desarrollador front-end. Interfaces rápidas, accesibles y cuidadas al detalle con React y TypeScript.">
+    <meta name="author" content="Facundo Tateossian">
+    <meta name="theme-color" content="#f4f6fb" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0a0d16" media="(prefers-color-scheme: dark)">
+    <link rel="canonical" href="https://facutateo.github.io/my-portfolio2.0/">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://facutateo.github.io/my-portfolio2.0/">
+    <meta property="og:title" content="Facundo Tateossian · Frontend Developer">
+    <meta property="og:description" content="Interfaces rápidas, accesibles y cuidadas al detalle con React y TypeScript.">
+    <meta property="og:image" content="https://facutateo.github.io/my-portfolio2.0/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Facundo Tateossian · Frontend Developer">
+    <meta name="twitter:description" content="Interfaces rápidas, accesibles y cuidadas al detalle con React y TypeScript.">
+    <meta name="twitter:image" content="https://facutateo.github.io/my-portfolio2.0/og-image.png">
+    <link rel="icon" type="image/svg+xml" href="/my-portfolio2.0/favicon.svg" />
+    <link rel="apple-touch-icon" href="/my-portfolio2.0/apple-touch-icon.png" />
+    <style>
+      html{background:#f4f6fb;color-scheme:light}
+      html.dark{background:#0a0d16;color-scheme:dark}
+    </style>
+    <script type="module" crossorigin src="/my-portfolio2.0/assets/index-DKIn8QWR.js"></script>
+    <link rel="stylesheet" crossorigin href="/my-portfolio2.0/assets/index-H8efPb0i.css">
   </head>
   <body>
     <div id="root"></div>
+    <noscript>Facundo Tateossian — Frontend Developer. <a href="https://github.com/facutateo">GitHub</a> · <a href="https://www.linkedin.com/in/facundo-tateossian/">LinkedIn</a></noscript>
   </body>
 </html>
