@@ -14,9 +14,8 @@ function Skills() {
                 <p className="eyebrow">02</p>
                 <h2 className="md:text-6xl text-4xl mt-2">{t("my")} {t("skills")}</h2>
             </div>
-            {/* Celular: carrusel infinito. Escritorio: grilla con todas las skills a la vista. */}
-            <div className="w-full max-w-4xl flex items-center overflow-hidden md:overflow-visible carrousel-container h-52 md:h-auto motion-reduce:h-auto motion-reduce:py-2 px-4 md:px-8">
-                <ul className="flex flex-nowrap gap-4" id="carrousel">
+            <div className="w-full max-w-4xl flex items-center overflow-hidden carrousel-container h-52 md:h-60">
+                <ul className="flex flex-nowrap" id="carrousel">
                     {doubleSkills.map((skill, index) => (
                         <SkillCard key={`${skill}-${index}`} skill={skill} duplicate={index >= skills.length} />
                     ))}
